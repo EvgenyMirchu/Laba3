@@ -1,24 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include "container_and_methods.h"
 #include "struct-record.h"
 
-// Вершинка (элемент) стека
-typedef struct Node 
-{
-    Publication publication;
-    Node *next;
-} Node;
 
-// Указатель на верхний (последний) элемент стека
-typedef struct StackTopPointer
-{
-    Node *top_pointer;
-} Top;
-
-// Создаем стек, а возвращаем именно верхушку (инициализация)
-Top* stack_container_init(void)
+// Создаем стек, возвращаем верхушку (инициализация)
+Top* stack_init(void)
 {
     Top *stack;
     stack->top_pointer = NULL;
@@ -26,9 +11,9 @@ Top* stack_container_init(void)
 }
 
 // Получение размера стека
-unsigned short stack_get_size(Top *stack) 
+short stack_get_size(Top *stack) 
 {
-    unsigned short count = 0;
+    short count = 0;
     Node *current = stack->top_pointer;
     while (current != NULL) {
         count++;
@@ -38,7 +23,7 @@ unsigned short stack_get_size(Top *stack)
 }
 
 // Получение указателя на произвольный элемент по индексу
-Node* stack_get_node(Top *stack, unsigned short k)
+Node* stack_get_node(Top *stack, short k)
 {
     if (stack_get_size(stack) - 1 < k) return NULL;
 
@@ -87,28 +72,28 @@ Node* stack_get_previous(Top *stack, Node *node) // Получение пред�
 
 
 
-Node* stack_push_end(Top *st, Publication *pub)   // Добавляем элемент в конец (на верхушку)
+Top* stack_push_end(Top *st, Publication *pub)   // Добавляем элемент в конец (на верхушку)
 {
     Node *new_node = malloc(sizeof(Node));
     new_node->publication = *pub; // Присваиваем новую публикацию
     new_node->next = st->top_pointer; // Присваиваем указатель на след. элемент
     st->top_pointer = new_node;
-    return new_node;
+    return st;
 }
 
 
-Node* stack_push_start(Top *st, Publication *pub)     // Добавляем элемент в начало (на дно)
+Top* stack_push_start(Top *st, Publication *pub)     // Добавляем элемент в начало (на дно)
 {
     Node *new_node = malloc(sizeof(Node));
     Node *last_node = stack_get_lowest(st);
     new_node->publication = *pub;
     new_node->next = NULL;
     last_node->next = new_node;
-    return new_node;
+    return st;
 }
 
 
-Node* stack_push_node(Top *st, Publication *pub, unsigned short k) // Добавляем элемент в произвольное место по индексу
+Top* stack_push_node(Top *st, Publication *pub, short k)        // Добавляем элемент в произвольное место по индексу
 {
     Node *current_node = stack_get_node(st, k);
     if (current_node == NULL) return NULL;
@@ -121,7 +106,7 @@ Node* stack_push_node(Top *st, Publication *pub, unsigned short k) // Добав
     before_curr_node->next = new_node;
     new_node->publication = *pub;
     new_node->next = current_node;
-    return new_node;
+    return st;
 }
 
 
@@ -191,14 +176,17 @@ Top* stack_swap_nodes(Top *st, Node *node_1, Node *node_2)
 //Очистка стека
 
 // Проверяем пустоту стека
-short stack_is_empty(Top *stack) {
+short stack_is_empty(Top *stack) 
+{
     if (stack->top_pointer == NULL) return 1;
     return 0;
 }
 
 // Удаляем весь стек
-void stack_free(Top *stack) {
-    while (!stack_is_empty(stack)) {
+void stack_free(Top *stack) 
+{
+    while (!stack_is_empty(stack)) 
+    {
         Publication pub;
         stack_pop(stack, &pub);
     }

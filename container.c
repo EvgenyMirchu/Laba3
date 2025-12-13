@@ -1,5 +1,5 @@
-#include "container_and_methods.h"
-#include "struct-record.h"
+#include "container.h"
+#include "struct.h"
 
 
 // Создаем стек, возвращаем верхушку (инициализация)

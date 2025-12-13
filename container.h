@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "struct-record.h"
+#include "struct.h"
 
 // Вершинка (элемент) стека
 typedef struct Node 

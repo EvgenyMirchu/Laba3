@@ -3,13 +3,13 @@
 
 typedef struct Scientific_puclication
 {
-    char * puclication_name;
+    char * publication_name;
     char * author_second_name;
     char * author_initials;
     char * magazine_name;
-    short publication_year;
     unsigned short magazine_volume;
-    _Bool is_in_RSCI;
+    short publication_year;
     short pages_amount;
+    _Bool is_in_RSCI;
     short citations_amount;
 } Publication;

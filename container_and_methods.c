@@ -29,7 +29,7 @@ Node* stack_get_node(Top *stack, short k)
 
     Node *curr_elem = stack->top_pointer;
 
-    for (unsigned short i = 0; i < k; ++i)
+    for (short i = 0; i < k; ++i)
     { 
         curr_elem = curr_elem->next;
     }

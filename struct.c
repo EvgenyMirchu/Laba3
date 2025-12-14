@@ -146,28 +146,31 @@ const char* random_element(const char* array[], int size)
 char* generate_title() 
 {
     int words = 3 + rand() % 5; // 3-7 слов
-    char* temp;
+    char* temp = malloc(256 * sizeof(char)); // Выделяем память
+    if (temp == NULL) return NULL;
+    
+    temp[0] = '\0'; // Инициализируем пустой строкой
     int words_generated = 0;
     
     // 40% вероятности начать с прилагательного
     if (rand() % 100 < 40) {
-        strncat(temp, random_element(TITLE_ADJECTIVES, 40), sizeof(temp) - strlen(temp) - 1);
-        strncat(temp, " ", sizeof(temp) - strlen(temp) - 1);
+        strncat(temp, random_element(TITLE_ADJECTIVES, 40), 256 - strlen(temp));
+        strncat(temp, " ", 511 - strlen(temp));
         words_generated++;
     }
     
     while (words_generated < words) {
-        // 30% вероятности добавить исследовательскую область (но не как первое слово и не как последнее)
+        // 30% вероятности добавить исследовательскую область
         if (words_generated > 0 && words_generated < words - 1 && rand() % 100 < 30) {
-            strncat(temp, random_element(RESEARCH_DOMAINS, 24), sizeof(temp) - strlen(temp) - 1);
-            words_generated += 2; // Исследовательская область обычно состоит из 2+ слов
+            strncat(temp, random_element(RESEARCH_DOMAINS, 24), 256 - strlen(temp));
+            words_generated += 2;
         } else {
-            strncat(temp, random_element(TITLE_WORDS, 50), sizeof(temp) - strlen(temp) - 1);
+            strncat(temp, random_element(TITLE_WORDS, 50), 256 - strlen(temp));
             words_generated++;
         }
         
         if (words_generated < words) {
-            strncat(temp, " ", sizeof(temp) - strlen(temp) - 1);
+            strncat(temp, " ", 511 - strlen(temp));
         }
     }
     
@@ -194,4 +197,11 @@ Publication* new_pub()
     new->citations_amount = (short) (rand() % 5001); // 0-5000 цитирований
 
     return new;
+}
+
+void free_publication(Publication *pub) {
+    if (pub) {
+        free(pub->publication_name);
+        free(pub);
+    }
 }

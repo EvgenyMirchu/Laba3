@@ -22,3 +22,4 @@ int compare(Publication *a, Publication *b);
 char* generate_title();
 const char* random_element(const char* array[], int size);
 Publication* new_pub();
+void free_publication(Publication *pub);

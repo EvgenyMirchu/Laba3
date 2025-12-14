@@ -2,11 +2,12 @@
 
 
 // Создаем стек, возвращаем верхушку (инициализация)
-Top* stack_init(void)
+Top* stack_init()
 {
-    Top *stack;
+    Top *stack = malloc(sizeof(Top));
+    if (stack == NULL) return NULL;
     stack->top_pointer = NULL;
-    return stack->top_pointer;
+    return stack;
 }
 
 // Получение размера стека
@@ -44,7 +45,8 @@ Node* stack_get_highest(Top *stack) // Получение указателя н�
 
 Node* stack_get_lowest(Top *stack) // Получение указателя на первый (самый нижний) элемент
 {
-    stack_get_node(stack, stack_get_size(stack)-1);
+    if (stack->top_pointer == NULL) return NULL;
+    return stack_get_node(stack, stack_get_size(stack) - 1);
 }
 
 Node* stack_get_next(Top *stack, Node *node) // Получение следующего элемента по указателю
@@ -184,9 +186,17 @@ short stack_is_empty(Top *stack)
 // Удаляем весь стек
 void stack_free(Top *stack) 
 {
+    if (!stack) return;
+    
     while (!stack_is_empty(stack)) 
     {
-        Publication pub;
-        stack_pop(stack, &pub);
+        Node *node = stack->top_pointer;
+        stack->top_pointer = node->next;
+        if (node->publication) 
+        {
+            free_publication(node->publication);
+        }
+        free(node);
     }
+    free(stack);
 }

@@ -4,6 +4,13 @@
 Mode* initialize_Mode_struct()
 {   
     Mode* new_mode = malloc(sizeof(Mode));
+    if (new_mode == NULL) return NULL;
+    
+    new_mode->curr_mode = NULL;
+    new_mode->amount_of_generatoins = 0;  
+    new_mode->in_data = NULL;
+    new_mode->out_data = NULL;
+    new_mode->sorting_type = NULL;
     new_mode->generation_status = '1';
     new_mode->in_status = '0';
     new_mode->out_status = '0';
@@ -16,9 +23,9 @@ int str_is_digit(char * str)
     for (int i = 0; str[i] != '\0'; i++) 
     {
         // isdigit - это функция для проверки символа на совпадение с цифрой
-        if (!isdigit((unsigned char)str[i])) return 1; 
+        if (!isdigit((unsigned char)str[i])) return 0; 
     }
-    return 0;
+    return 1;
 }
 
 Mode* define_mode(Mode* mode, int arg_c, char* arg_v[])
@@ -39,9 +46,9 @@ Mode* define_mode(Mode* mode, int arg_c, char* arg_v[])
     {
         if (i == 1)
         {
-            if (strcmp(arg_v[i], "--generate") || strcmp(arg_v[i], "-g")) mode->curr_mode = "generate";
-            if (strcmp(arg_v[i], "--sort") || strcmp(arg_v[i], "-s")) mode->curr_mode = "sort";
-            if (strcmp(arg_v[i], "--print") || strcmp(arg_v[i], "-p")) mode->curr_mode = "print";
+            if (strcmp(arg_v[i], "--generate") == 0 || strcmp(arg_v[i], "-g") == 0) mode->curr_mode = "generate";
+            if (strcmp(arg_v[i], "--sort") == 0 || strcmp(arg_v[i], "-s") == 0) mode->curr_mode = "sort";
+            if (strcmp(arg_v[i], "--print") == 0 || strcmp(arg_v[i], "-p") == 0) mode->curr_mode = "print";
 
             else
                 {
@@ -64,10 +71,10 @@ Mode* define_mode(Mode* mode, int arg_c, char* arg_v[])
             {
                 if (mode->generation_status == '1')
                 {
-                    if (str_is_digit(arg_v[i]))
+                    if (str_is_digit(arg_v[i]) && strlen(arg_v[i]) <= 2) // максимум двузначное число число 
                     {
-                        short N = (short) (arg_v[i]);
-                        if (MIN_GENERATIONS <= N <= MAX_GENERATIONS) mode->amount_of_generatoins = N;
+                        short N = (short) atoi(arg_v[i]); // преобразование числа в
+                        if (MIN_GENERATIONS <= N && N <= MAX_GENERATIONS) mode->amount_of_generatoins = N;
                         else
                         {
                             printf("Ошибка при считывании данных: число генераций можно брать из множества целых чисел от %d до %d.", MIN_GENERATIONS, MAX_GENERATIONS);
@@ -262,5 +269,10 @@ Mode* define_mode(Mode* mode, int arg_c, char* arg_v[])
         }
     }
 
+    if (strcmp(mode->curr_mode, "generate") == 0 && mode->amount_of_generatoins == 0)
+    {
+        puts("Ошибка при считывании данных: не указано число генераций");
+        return NULL;
+    }
     return mode;
 }

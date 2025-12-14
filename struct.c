@@ -154,7 +154,7 @@ char* generate_title()
     
     // 40% вероятности начать с прилагательного
     if (rand() % 100 < 40) {
-        strncat(temp, random_element(TITLE_ADJECTIVES, 40), 256 - strlen(temp));
+        strncat(temp, random_element(TITLE_ADJECTIVES, 40), 511 - strlen(temp)); //511 - это размер буффера, "магическое число"
         strncat(temp, " ", 511 - strlen(temp));
         words_generated++;
     }
@@ -162,10 +162,10 @@ char* generate_title()
     while (words_generated < words) {
         // 30% вероятности добавить исследовательскую область
         if (words_generated > 0 && words_generated < words - 1 && rand() % 100 < 30) {
-            strncat(temp, random_element(RESEARCH_DOMAINS, 24), 256 - strlen(temp));
+            strncat(temp, random_element(RESEARCH_DOMAINS, 24), 511 - strlen(temp));
             words_generated += 2;
         } else {
-            strncat(temp, random_element(TITLE_WORDS, 50), 256 - strlen(temp));
+            strncat(temp, random_element(TITLE_WORDS, 50), 511 - strlen(temp));
             words_generated++;
         }
         
@@ -181,8 +181,6 @@ Publication* new_pub()
 {
     Publication* new = malloc(sizeof(Publication));
     if (new == NULL) return NULL;
-
-    srand(time(NULL));
 
     new->publication_name = generate_title();
     new->author_second_name = random_element(FIRST_NAMES, sizeof(FIRST_NAMES)/sizeof(FIRST_NAMES[0])); 

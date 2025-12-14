@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 
-typedef struct Scientific_puclication
+typedef struct Scientific_publication
 {
     char * publication_name;
     char * author_second_name;
@@ -18,5 +18,7 @@ typedef struct Scientific_puclication
 } Publication;
 
 
-void new_pub(Top *stack, int count);
 int compare(Publication *a, Publication *b);
+char* generate_title();
+const char* random_element(const char* array[], int size);
+Publication* new_pub();

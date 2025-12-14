@@ -74,7 +74,7 @@ Node* stack_get_previous(Top *stack, Node *node) // Получение пред�
 Top* stack_push_end(Top *st, Publication *pub)   // Добавляем элемент в конец (на верхушку)
 {
     Node *new_node = malloc(sizeof(Node));
-    new_node->publication = *pub; // Присваиваем новую публикацию
+    new_node->publication = pub; // Присваиваем новую публикацию
     new_node->next = st->top_pointer; // Присваиваем указатель на след. элемент
     st->top_pointer = new_node;
     return st;
@@ -85,7 +85,7 @@ Top* stack_push_start(Top *st, Publication *pub)     // Добавляем эл�
 {
     Node *new_node = malloc(sizeof(Node));
     Node *last_node = stack_get_lowest(st);
-    new_node->publication = *pub;
+    new_node->publication = pub;
     new_node->next = NULL;
     last_node->next = new_node;
     return st;
@@ -103,7 +103,7 @@ Top* stack_push_node(Top *st, Publication *pub, short k)        // Добавл�
     Node *before_curr_node = stack_get_node(st, k-1);
 
     before_curr_node->next = new_node;
-    new_node->publication = *pub;
+    new_node->publication = pub;
     new_node->next = current_node;
     return st;
 }

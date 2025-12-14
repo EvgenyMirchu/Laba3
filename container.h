@@ -7,7 +7,7 @@
 // Вершинка (элемент) стека
 typedef struct Node 
 {
-    Publication publication;
+    Publication *publication;
     Node *next;
 } Node;
 

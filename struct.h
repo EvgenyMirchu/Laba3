@@ -1,4 +1,7 @@
+#pragma once
 #include <stdbool.h>
+#include <time.h>
+#include <stdlib.h>
 
 
 typedef struct Scientific_puclication
@@ -13,3 +16,7 @@ typedef struct Scientific_puclication
     _Bool is_in_RSCI;
     short citations_amount;
 } Publication;
+
+
+void new_pub(Top *stack, int count);
+int compare(Publication *a, Publication *b);

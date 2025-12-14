@@ -1,5 +1,4 @@
 #include "container.h"
-#include "struct.h"
 
 
 // Создаем стек, возвращаем верхушку (инициализация)

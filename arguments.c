@@ -105,17 +105,95 @@ Mode* define_mode(Mode* mode, int arg_c, char* arg_v[])
                 
 
             if (strcmp(mode->curr_mode, "sort") == 0)
-            {
-                if (strcmp(arg_v[i], "--out") == 0 || strcmp(arg_v[i], "-o") == 0) mode->out_status = '1';
-                if (strcmp(arg_v[i], "--in") == 0 || strcmp(arg_v[i], "-i") == 0) mode->in_status = '1';
-                if (strcmp(arg_v[i], "--type") == 0 || strcmp(arg_v[i], "-t") == 0) mode->type_status = '1';
+            {   
+                if (mode->out_status == '0' || mode->in_status == '0' || mode->type_status == '0')
+                {
+                    if (strcmp(arg_v[i], "--out") == 0 || strcmp(arg_v[i], "-o") == 0) mode->out_status = '1';
+                    else if (strcmp(arg_v[i], "--in") == 0 || strcmp(arg_v[i], "-i") == 0) mode->in_status = '1';
+                    else if (strcmp(arg_v[i], "--type") == 0 || strcmp(arg_v[i], "-t") == 0) mode->type_status = '1';
+                    
+                    else
+                    {
+                        puts("Ошибка при считывании данных: введен несуществующий флаг");
+                        return NULL;
+                    }
+                }
+
+                else if (mode->type_status == '1')
+                {
+                    if (mode->in_status == '1' || mode->out_status == '1')
+                    {
+                        puts("Ошибка при считывании данных: два флага идут подряд.");
+                        return NULL;
+                    }
+                    
+                    else 
+                    {
+                        if (strcmp(arg_v[i], "desc") == 0 || strcmp(arg_v[i], "D") == 0 \
+                        || strcmp(arg_v[i], "asc") == 0 || strcmp(arg_v[i], "A") == 0)
+                        {
+                            mode->sorting_type = arg_v[i];
+                            mode->type_status = '2';
+                        }
+
+                        else
+                        {
+                            puts("Ошибка при считывании данных: неизвестный аргумент.");
+                            return NULL;
+                        }
+                    }
+                }
+
+
+                else if (mode->in_status == '1')
+                {
+                    if (mode->type_status == '1' || mode->out_status == '1')
+                    {
+                        puts("Ошибка при считывании данных: два флага идут подряд.");
+                        return NULL;
+                    }
+                    
+                    else
+                    {
+                        if (strcmp(arg_v[i], "data.csv") == 0)
+                        {
+                            mode->in_data = arg_v[i];
+                            mode->in_status = '2';
+                        }
+                    
+                        else
+                        {
+                            puts("Ошибка при считывании данных: неизвестный аргумент.");
+                            return NULL;
+                        }
+                    }
+                }
                 
 
-                else
+                else if (mode->out_status == '1')
                 {
-                    puts("Ошибка при считывании данных: введен несуществующий флаг");
-                    return NULL;
+                    if (mode->type_status == '1' || mode->in_data == '1')
+                    {
+                        puts("Ошибка при считывании данных: два флага идут подряд.");
+                        return NULL;
+                    }
+                    
+                    else
+                    {
+                        if (strcmp(arg_v[i], "output.csv") == 0)
+                        {
+                            mode->sorting_type = arg_v[i];
+                            mode->out_status = '2';
+                        }
+
+                        else
+                        {
+                            puts("Ошибка при считывании данных: неизвестный аргумент.");
+                            return NULL;
+                        }
+                    }
                 }
+                
             }
 
             if (strcmp(mode->curr_mode, "print") == 0)

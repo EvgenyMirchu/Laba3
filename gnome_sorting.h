@@ -3,4 +3,4 @@
 #include "container.h"
 
 
-void gnome_sort(Top *stack);
+void gnome_sort(Top *stack, int asc);

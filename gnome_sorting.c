@@ -1,12 +1,12 @@
 #include "gnome_sorting.h"
 
 
-void gnome_sort(Top *stack, int asc)
+void gnome_sort(Top *stack, int asc) // Если asc >= 0, то сортировка по возрастанию, иначе по убыванию
 {
     short index = 0, rem_index = 0;
     short len = stack_get_size(stack);
     
-    if (asc == 1)
+    if (asc >= 0)
     {
         while (index < len-1)
         {

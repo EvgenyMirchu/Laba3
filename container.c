@@ -63,8 +63,9 @@ Node* stack_get_previous(Top *stack, Node *node) // Получение пред�
     while (1)
     {
         if (prev_node->next == node) return prev_node;
-        else stack_get_next(stack, prev_node);
+        prev_node = prev_node->next;
     }
+    return NULL;
 }
 
 
@@ -159,17 +160,11 @@ Top* stack_pop_node(Top *st, Node *pop_node) // Удаляем элемент и
 // Замена пары элементов друг на друга
 Top* stack_swap_nodes(Top *st, Node *node_1, Node *node_2)
 {
-    if (node_1 == node_2) return st;
-    Node *prev_node_1 = stack_get_previous(st, node_1);
-    Node *prev_node_2 = stack_get_previous(st, node_2);
-    if (prev_node_1 == NULL || prev_node_2 == NULL) return NULL;
-    Node *next_node_1 = stack_get_next(st, node_1);
-    Node *next_node_2 = stack_get_next(st, node_2);
+    if (node_1 == node_2 || node_1 == NULL || node_2 == NULL) return st;
     
-    prev_node_1->next = node_2;
-    node_2->next = next_node_1;
-    prev_node_2->next = node_1;
-    node_1->next = next_node_2;
+    Publication *temp = node_1->publication;
+    node_1->publication = node_2->publication;
+    node_2->publication = temp;
     
     return st;
 }

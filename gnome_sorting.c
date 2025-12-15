@@ -10,7 +10,7 @@ void gnome_sort(Top *stack, int asc) // Если asc >= 0, то сортиров
     {
         while (index < len-1)
         {
-            if (compare(stack_get_node(stack, index), stack_get_node(stack, index+1)) <= 0)
+            if (compare(stack_get_node(stack, index)->publication, stack_get_node(stack, index+1)->publication) <= 0)
             {
                 index ++;
                 rem_index ++;
@@ -32,7 +32,7 @@ void gnome_sort(Top *stack, int asc) // Если asc >= 0, то сортиров
     {
         while (index < len-1)
         {
-            if (compare(stack_get_node(stack, index), stack_get_node(stack, index+1)) >= 0)
+            if (compare(stack_get_node(stack, index)->publication, stack_get_node(stack, index+1)->publication) >= 0)
             {
                 index ++;
                 rem_index ++;

@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <time.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 typedef struct Scientific_publication

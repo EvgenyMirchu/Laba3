@@ -5,10 +5,10 @@
 #include "struct.h"
 
 // Вершинка (элемент) стека
-typedef struct Node 
+typedef struct StackNode 
 {
     Publication *publication;
-    Node *next;
+    struct StackNode *next;
 } Node;
 
 // Указатель на верхний (последний) элемент стека

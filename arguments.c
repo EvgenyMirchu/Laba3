@@ -47,8 +47,8 @@ Mode* define_mode(Mode* mode, int arg_c, char* arg_v[])
         if (i == 1)
         {
             if (strcmp(arg_v[i], "--generate") == 0 || strcmp(arg_v[i], "-g") == 0) mode->curr_mode = "generate";
-            if (strcmp(arg_v[i], "--sort") == 0 || strcmp(arg_v[i], "-s") == 0) mode->curr_mode = "sort";
-            if (strcmp(arg_v[i], "--print") == 0 || strcmp(arg_v[i], "-p") == 0) mode->curr_mode = "print";
+            else if (strcmp(arg_v[i], "--sort") == 0 || strcmp(arg_v[i], "-s") == 0) mode->curr_mode = "sort";
+            else if (strcmp(arg_v[i], "--print") == 0 || strcmp(arg_v[i], "-p") == 0) mode->curr_mode = "print";
 
             else
                 {
@@ -121,7 +121,7 @@ Mode* define_mode(Mode* mode, int arg_c, char* arg_v[])
                     
                     else
                     {
-                        puts("Ошибка при считывании данных: введен несуществующий флаг");
+                        puts("Ошибка при считывании данных: введен несуществующий флаг.");
                         return NULL;
                     }
                 }
@@ -145,7 +145,7 @@ Mode* define_mode(Mode* mode, int arg_c, char* arg_v[])
 
                         else
                         {
-                            puts("Ошибка при считывании данных: неизвестный аргумент.");
+                            puts("Ошибка при считывании данных: неизвестный аргумент. iiiiiiii");
                             return NULL;
                         }
                     }
